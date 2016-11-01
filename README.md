@@ -1,2 +1,2 @@
 # ann-hopfield
-An old example of Hopfield Ann
+An old example of Hopfield ANN
