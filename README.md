@@ -21,6 +21,6 @@ Observe what happens as the amount of noiseis increased, and also as the number 
 - Load one of the patterns by clicking on it. 
 - Add random noise to the pattern by using "Add Noise" button. (You can adjust the level of noise) 
 - You can edit the loaded pattern. 
-- Click on "Recall" button to see how the Backpropagation algorithm gives the results. The charts at the bottom right of the applett are shows the value of each neuron output. In the ideal case the output of the neuron corresponding to the pattern will be 100% and all the others will be 0%. 
+- Click on "Recall" button to see how the Backpropagation algorithm gives the results. The charts at the bottom right of the applett show the value of each neuron output. In the ideal case the output of the neuron corresponding to the pattern will be 100% and all the others will be 0%. 
 - You can clear the grids by clicking on "Clear Pattern" buttons 
 - You can create your own pattern on the loaded pattern section, then you can simply save it by clicking the thickbox belonging to pattern that you want to save it to, and then clicking "Save" button.
