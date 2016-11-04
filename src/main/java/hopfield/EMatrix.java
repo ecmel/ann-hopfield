@@ -1,170 +1,202 @@
 package hopfield;
 
 public class EMatrix {
-    
-    private final double[][] matrix;
-    private final int rows;
-    private final int cols;
-    
-    public EMatrix(int r, int c) {
-        matrix = new double[r][c];
-        rows = r;
-        cols = c;
+
+  private final double[][] matrix;
+  private final int rows;
+  private final int cols;
+
+  public EMatrix(int r, int c)
+  {
+    matrix = new double[r][c];
+    rows = r;
+    cols = c;
+  }
+
+  public EMatrix(double[][] m)
+  {
+    matrix = m;
+    rows = m.length;
+    cols = m[0].length;
+  }
+
+  public double[][] get()
+  {
+    return matrix;
+  }
+
+  public double[] getRow(int row)
+  {
+    double[] ret = new double[cols];
+
+    for (int i = 0; i < cols; i++) {
+      ret[i] = matrix[row][i];
     }
-    
-    public EMatrix(double[][] m) {
-        matrix = m;
-        rows = m.length;
-        cols = m[0].length;
+
+    return ret;
+  }
+
+  public void setRowInt(int n, int[] m)
+  {
+    for (int i = 0; i < cols; i++) {
+      matrix[n][i] = m[i];
     }
-    
-    public double [][] get() {
-        return matrix;
+  }
+
+  public double[] getCol(int col)
+  {
+    double[] ret = new double[rows];
+
+    for (int i = 0; i < rows; i++) {
+      ret[i] = matrix[i][col];
     }
-    
-    public double[] getRow(int row) {
-        double[] ret = new double[cols];
-        
-        for (int i = 0; i < cols; i++)
-            ret[i] = matrix[row][i];
-        
-        return ret;
+
+    return ret;
+  }
+
+  public int[] getColInt(int col)
+  {
+    int[] ret = new int[rows];
+
+    for (int i = 0; i < rows; i++) {
+      ret[i] = (int) matrix[i][col];
     }
-    
-    public void setRowInt(int n, int[] m) {
-        for (int i = 0; i < cols; i++)
-            matrix[n][i] = m[i];
+
+    return ret;
+  }
+
+  public void setCol(int n, double[] m)
+  {
+    for (int i = 0; i < rows; i++) {
+      matrix[i][n] = m[i];
     }
-    
-    public double[] getCol(int col) {
-        double[] ret = new double[rows];
-        
-        for (int i = 0; i < rows; i++)
-            ret[i] = matrix[i][col];
-        
-        return ret;
+  }
+
+  public void setColInt(int n, int[] m)
+  {
+    for (int i = 0; i < rows; i++) {
+      matrix[i][n] = m[i];
     }
-    
-    public int[] getColInt(int col) {
-        int[] ret = new int[rows];
-        
-        for (int i = 0; i < rows; i++)
-            ret[i] = (int) matrix[i][col];
-        
-        return ret;
+  }
+
+  public EMatrix plus(EMatrix m)
+  {
+    double[][] g = new double[rows][cols];
+
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < cols; j++) {
+        g[i][j] = matrix[i][j] + m.matrix[i][j];
+      }
     }
-    
-    public void setCol(int n, double [] m) {
-        for (int i = 0; i < rows; i++)
-            matrix[i][n] = m[i];
+
+    return new EMatrix(g);
+  }
+
+  public EMatrix minus(EMatrix m)
+  {
+    double[][] g = new double[rows][cols];
+
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < cols; j++) {
+        g[i][j] = matrix[i][j] - m.matrix[i][j];
+      }
     }
-    
-    public void setColInt(int n, int[] m) {
-        for (int i = 0; i < rows; i++)
-            matrix[i][n] = m[i];
-    }
-    
-    
-    public EMatrix plus(EMatrix m) {
-        double[][] g = new double[rows][cols];
-        
-        for (int i = 0; i < rows; i++)
-            for (int j = 0; j < cols; j++)
-                g[i][j] = matrix[i][j] + m.matrix[i][j];
-        
-        return new EMatrix(g);
-    }
-    
-    public EMatrix minus(EMatrix m) {
-        double[][] g = new double[rows][cols];
-        
-        for (int i = 0; i < rows; i++)
-            for (int j = 0; j < cols; j++)
-                g[i][j] = matrix[i][j] - m.matrix[i][j];
-        
-        return new EMatrix(g);
-    }
-    
-    public EMatrix multiply(EMatrix m) {
-        int r = m.matrix.length;
-        int c = m.matrix[0].length;
-        
-        double[][] g = new double[rows][c];
-        
-        for (int i = 0; i < rows; i++) {
-            for (int k = 0; k < c; k++) {
-                double t = 0;
-                for (int j = 0; j < cols; j++) {
-                    t += matrix[i][j] * m.matrix[j][k];
-                }
-                g[i][k] = t;
-            }
+
+    return new EMatrix(g);
+  }
+
+  public EMatrix multiply(EMatrix m)
+  {
+    int r = m.matrix.length;
+    int c = m.matrix[0].length;
+
+    double[][] g = new double[rows][c];
+
+    for (int i = 0; i < rows; i++) {
+      for (int k = 0; k < c; k++) {
+        double t = 0;
+        for (int j = 0; j < cols; j++) {
+          t += matrix[i][j] * m.matrix[j][k];
         }
-        return new EMatrix(g);
+        g[i][k] = t;
+      }
     }
-    
-    public EMatrix multiplySimple(EMatrix z) {
-        double e [][] = new double[rows][cols];
-        
-        for (int i=0; i<rows; i++)
-            for (int j=0; j<cols; j++)
-                e[i][j] = matrix[i][j] * z.matrix[i][j];
-        
-        return new EMatrix(e);
+    return new EMatrix(g);
+  }
+
+  public EMatrix multiplySimple(EMatrix z)
+  {
+    double e[][] = new double[rows][cols];
+
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < cols; j++) {
+        e[i][j] = matrix[i][j] * z.matrix[i][j];
+      }
     }
-    
-    public EMatrix transpose() {
-        EMatrix m = new EMatrix(cols, rows);
-        
-        for (int i = 0; i < rows; i++)
-            for (int j = 0; j < cols; j++)
-                m.matrix[j][i] = matrix[i][j];
-        
-        return m;
+
+    return new EMatrix(e);
+  }
+
+  public EMatrix transpose()
+  {
+    EMatrix m = new EMatrix(cols, rows);
+
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < cols; j++) {
+        m.matrix[j][i] = matrix[i][j];
+      }
     }
-    
-    
-    public EMatrix hyperTan() {
-        EMatrix m = new EMatrix(rows,cols);
-        for (int i = 0; i < rows; i++)
-            for (int j = 0; j < cols; j++)
-                m.matrix[i][j] = 1D / (1D + Math.exp(-1D * matrix[i][j]));
- 
-        return m;
+
+    return m;
+  }
+
+  public EMatrix hyperTan()
+  {
+    EMatrix m = new EMatrix(rows, cols);
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < cols; j++) {
+        m.matrix[i][j] = 1D / (1D + Math.exp(-1D * matrix[i][j]));
+      }
     }
- 
- 
-   public EMatrix hyperTanDerivative() {
-        EMatrix m = new EMatrix(rows,cols);
- 
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                double y = 1D / (1D + Math.exp(-1D * matrix[i][j]));
-                m.matrix[i][j] = y - Math.pow(y, 2);
-            }
+
+    return m;
+  }
+
+  public EMatrix hyperTanDerivative()
+  {
+    EMatrix m = new EMatrix(rows, cols);
+
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < cols; j++) {
+        double y = 1D / (1D + Math.exp(-1D * matrix[i][j]));
+        m.matrix[i][j] = y - Math.pow(y, 2);
+      }
+    }
+    return m;
+  }
+
+  public void diagonals(int s)
+  {
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < cols; j++) {
+        if (i == s) {
+          matrix[s][j] = 1.0D;
+        } else {
+          matrix[i][j] = 0.0D;
         }
-        return m;
+      }
     }
-    
-    
-    public void diagonals(int s) {
-        for (int i = 0; i < rows; i++) {
-            for (int j=0; j<cols; j++) {
-                if (i==s)
-                    matrix[s][j] = 1.0D;
-                else
-                    matrix[i][j] = 0.0D;
-            }
-        }
+  }
+
+  public void randomize()
+  {
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < cols; j++) {
+        matrix[i][j] = 0.3D * Math.random();
+      }
     }
-    
-    public void randomize() {
-        for (int i = 0; i < rows; i++)
-            for (int j=0; j<cols; j++)
-                matrix[i][j] = 0.3D * Math.random();
-    }
-    
-    
+  }
+
 }
 
 /*
@@ -345,8 +377,3 @@ public class EMatrix {
     }
  
  */
-
-
-
-
-
