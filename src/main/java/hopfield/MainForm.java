@@ -26,12 +26,7 @@ import javax.swing.UIManager;
 public class MainForm extends javax.swing.JFrame {
     
     public MainForm() {
-        initComponents();
-
-        if (System.getProperty("mrj.version") == null) {
-            setIconImage(new ImageIcon(
-                    getClass().getResource("/resources/Diagram.png")).getImage());
-        }        
+        initComponents();   
                 
         JComponent [][] gridBoxes = {
             { gridA0, gridA1, gridA2, gridA3, gridA4, gridA5, gridA6, gridA7, gridA8, gridA9, gridB0, gridB1, gridB2, gridB3, gridB4, gridB5, gridB6, gridB7, gridB8, gridB9 },
